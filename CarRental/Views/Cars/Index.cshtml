@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CarRentalApp.Models.Car>
+
+@{
+    ViewData["Title"] = "Available Cars";
+}
+
+<h2 class="mb-2">Available Cars</h2>
+<p class="text-muted mb-4">Select a car from the options below to make a booking.</p>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info" role="alert">
+        No cars are currently available for booking.
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var car in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="card-title mb-0">@car.Name</h5>
+                            <span class="badge bg-success">Available</span>
+                        </div>
+                        <p class="card-text text-muted mb-4">
+                            PKR @car.PricePerDay.ToString("N0") / day
+                        </p>
+                        <form asp-controller="Cars" asp-action="Book" method="post" class="mt-auto">
+                            <input type="hidden" name="id" value="@car.Id" />
+                            <button type="submit" class="btn btn-primary w-100">Book Car</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
